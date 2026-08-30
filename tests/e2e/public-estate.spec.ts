@@ -1,0 +1,1 @@
+import {expect,test} from "@playwright/test";test("visitor reaches a portfolio company",async({page})=>{await page.goto("/");await page.getByRole("link",{name:"Explore the group"}).click();await page.getByRole("link",{name:/Zuribeans/}).click();await expect(page.getByRole("heading",{name:"Zuribeans"})).toBeVisible()});

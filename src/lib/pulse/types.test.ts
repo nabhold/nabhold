@@ -1,0 +1,1 @@
+import {describe,expect,it} from "vitest";import {signalSchema} from "./types";describe("Pulse contract",()=>{it("rejects invalid confidence",()=>{expect(()=>signalSchema.parse({id:"1",title:"x",market:"x",direction:"stable",confidence:2,observedAt:"now"})).toThrow()})});
