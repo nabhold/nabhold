@@ -43,8 +43,14 @@ jobs:
           NABHOLD_DASHBOARD_PREVIEW: "false"
         run: pnpm build
 
-      - name: Install repository-pinned Chromium
-        run: pnpm exec playwright install chromium
+      - name: Resolve baobab-dev Chromium
+        shell: bash
+        run: |
+          set -euo pipefail
+          browser="$(find /root/.cache/ms-playwright -type f \
+            \( -name headless_shell -o -name chrome \) -print -quit)"
+          test -n "$browser"
+          echo "PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=$browser" >> "$GITHUB_ENV"
 
       - name: End-to-end tests
         env:
