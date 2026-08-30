@@ -43,6 +43,9 @@ jobs:
           NABHOLD_DASHBOARD_PREVIEW: "false"
         run: pnpm build
 
+      - name: Install repository-pinned Chromium
+        run: pnpm exec playwright install chromium
+
       - name: End-to-end tests
         env:
           CI: "true"
