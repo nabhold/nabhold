@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Quality gates
+    runs-on: ubuntu-26.04
+    container:
+      image: ghcr.io/nabhold/baobab-dev:1.2.6-frontend-e2e
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Type-check
+        run: pnpm typecheck
+
+      - name: Unit tests
+        run: pnpm test
+
+      - name: Build
+        env:
+          NEXT_PUBLIC_SITE_URL: http://localhost:3000
+          NABHOLD_DASHBOARD_PREVIEW: "false"
+        run: pnpm build
+
+      - name: End-to-end tests
+        env:
+          CI: "true"
+          NEXT_PUBLIC_SITE_URL: http://127.0.0.1:3000
+        run: pnpm test:e2e
+
+  action-pinning:
+    name: Enforce action pinning
+    uses: nabhold/shared/.github/workflows/enforce-action-pinning.yml@498c431ea7eb76eb038975bc49e7087499d30d48 # shared main, 2026-08-26
+    permissions:
+      contents: read
+
+  dependabot-policy:
+    name: Enforce Dependabot policy
+    uses: nabhold/shared/.github/workflows/enforce-dependabot-config.yml@498c431ea7eb76eb038975bc49e7087499d30d48 # shared main, 2026-08-26
+    permissions:
+      contents: read
+    with:
+      required-ecosystems: "github-actions,npm"
