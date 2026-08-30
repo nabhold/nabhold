@@ -1,0 +1,9 @@
+# Default ownership
+* @bjnabs
+
+# Security- and delivery-sensitive paths
+/.github/ @bjnabs
+/.devcontainer/ @bjnabs
+/.nabhold/ @bjnabs
+/src/lib/auth/ @bjnabs
+/src/lib/pulse/ @bjnabs
