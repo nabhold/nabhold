@@ -1,0 +1,1 @@
+export default function Page(){return <section className="shell py-20"><p className="eyebrow">Strategic interests</p><h1 className="display mt-5 text-6xl">Sectors where enterprise meets necessity.</h1><p className="mt-8 max-w-2xl text-lg leading-8 text-[var(--muted)]">Our portfolio spans agriculture and trade, distribution, property and the built environment.</p></section>}
