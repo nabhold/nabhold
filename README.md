@@ -2,16 +2,29 @@
 
 The corporate frontend for Nabhold Group Africa: an institutional public presence and a protected executive window into Baobab intelligence. It consumes Baobab through APIs; it does not reimplement Baobab.
 
-## Local development
+## GitHub Codespaces
+
+Choose **Code → Codespaces → Create codespace on main**. The repository uses the pinned `baobab-dev` v1.2.6 `frontend` profile, installs the locked pnpm dependencies, and forwards the Next.js development server privately on port 3000.
+
+After the Codespace is ready:
 
 ```bash
-corepack enable
-pnpm install
 cp .env.example .env.local
 pnpm dev
 ```
 
-Set `NABHOLD_DASHBOARD_PREVIEW=true` only for local dashboard UI work.
+## Local development
+
+Use a Dev Container-compatible editor for parity with Codespaces. For a direct Node.js 22 installation:
+
+```bash
+corepack enable
+pnpm install --frozen-lockfile
+cp .env.example .env.local
+pnpm dev
+```
+
+Set `NABHOLD_DASHBOARD_PREVIEW=true` only for local dashboard UI work. The application rejects preview sessions when `NODE_ENV=production`.
 
 ## Quality gates
 
@@ -22,5 +35,7 @@ pnpm test
 pnpm build
 pnpm test:e2e
 ```
+
+GitHub CI runs the same gates using the `baobab-dev:1.2.6-frontend-e2e` profile.
 
 See [architecture](docs/architecture.md), [Pulse integration](docs/integrations/pulse.md), and [deployment](docs/deployment.md).

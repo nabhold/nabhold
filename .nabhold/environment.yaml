@@ -1,80 +1,27 @@
-# ==============================================================================
-# NABHOLD DIGITAL ESTATE
-# Development Environment Declaration — TEMPLATE
+# Nabhold development-environment declaration
 #
-# This file declares the `nabhold/nabhold` corporate digital estate.
-# It is the canonical TEMPLATE for all four digital-estate repos:
-#   nabhold/nabhold, nabhold/zuribeans, nabhold/thamani, nabhold/equator-estate
+# Conforms to:
+#   nabhold/shared/contracts/development-environment/schema.yaml (v1.0)
+# Governing decision:
+#   nabhold/shared/docs/adr/ADR-0001
 #
-# Target path in every digital-estate repo: .nabhold/environment.yaml
-#
-# HOW TO ADAPT THIS FILE FOR ANOTHER REPOSITORY
-# ------------------------------------------------------------------------------
-# Change ONLY these two fields:
-#   application.name        -> e.g. "thamani", "equator-estate", "nabhold"
-#   application.entity_id   -> the matching id from the legal-entity registry
-#
-# Do NOT change anything else (profile, capabilities, compatibility_policy)
-# without updating all four repos in lockstep. The entire point of the
-# `frontend` profile (ADR-0001 section 2.8a) is that these four repos share
-# one identical tooling baseline; editing one copy differently defeats that
-# and reintroduces the drift this contract exists to prevent.
-#
-# Conforms to: nabhold/shared/contracts/development-environment/schema.yaml (v1.0)
-# Governing decision record: ADR-0001 (nabhold/shared/docs/adr/)
-# ==============================================================================
+# The application and entity identifiers are repository-specific. The
+# environment profile and compatibility policy are organisational standards.
 
 schema:
   name: "nabhold-development-environment-contract"
   version: "1.0"
 
-# ------------------------------------------------------------------------------
-# Application identity
-#
-# THIS IS THE PER-REPO SECTION. Everything below this block is identical
-# across all four digital-estate repos.
-# ------------------------------------------------------------------------------
-
 application:
   name: "nabhold"
-
-  # PLACEHOLDER — no package.json exists yet in this repo (created, not yet
-  # implemented). Update once the repo has real release versioning.
-  version: "0.1.0"    # PLACEHOLDER
-
-  # References the canonical id from:
-  #   nabhold/shared/contracts/legal-entity/registry.yaml
-  # `nabhold/nabhold` is the one exception: it has no entity_id conflict
-  # since NABHOLD is itself a registry entry, but note it is
-  # `baobab_tenant: false` there — this environment declaration exists
-  # regardless of tenancy status, since it concerns the DEV environment,
-  # not the Baobab platform relationship.
+  version: "0.1.0"
   entity_id: "NABHOLD"
-
-# ------------------------------------------------------------------------------
-# Environment
-#
-# Identical across all four digital-estate repos.
-# ------------------------------------------------------------------------------
 
 environment:
   provider: "baobab-dev"
   profile: "frontend"
-
-  # TBD — deliberately left unfilled. No baobab-dev image tagged
-  # `*-frontend` has been published yet (ADR-0001 sections 2.8 / 2.8a); the
-  # `--target frontend` Dockerfile stage does not exist yet. This MUST be
-  # filled in with a real tag (e.g. "1.1.0-frontend") the moment one is
-  # published — do not fill it with a guessed version now.
-  minimum_version: null   # TBD — see note above
-
+  minimum_version: "1.2.6-frontend"
   contract_minimum_version: "1.0"
-
-# ------------------------------------------------------------------------------
-# Compatibility policy
-#
-# Identical across all four digital-estate repos.
-# ------------------------------------------------------------------------------
 
 compatibility_policy:
   strict_runtime_versions: true
@@ -82,69 +29,30 @@ compatibility_policy:
   allow_newer_minor_versions: false
   allow_older_versions: false
 
-# ------------------------------------------------------------------------------
-# Validation
-#
-# Identical across all four digital-estate repos.
-# ------------------------------------------------------------------------------
-
 validation:
   required_capabilities:
     - "node"
     - "pnpm"
     - "github_cli"
-    - "turborepo"     # NOT YET AVAILABLE — see pending_capabilities below
-    - "playwright"    # NOT YET AVAILABLE — see pending_capabilities below
+    - "turborepo"
 
-  # Capabilities the `full` profile requires that this profile deliberately
-  # does NOT — mirrors the exclusion pattern used in baobab's own
-  # declaration, so the two files stay legible against each other.
   excluded_capabilities:
     - name: "python"
-      reason: "Frontend repos build no Python code."
+      reason: "This digital estate builds no Python code."
     - name: "flutter"
-      reason: "Frontend repos build no Flutter code."
+      reason: "This digital estate builds no Flutter code."
     - name: "postgresql"
-      reason: "Frontend repos do not run a local database; they consume Baobab via GraphQL."
+      reason: "The frontend owns no local database and consumes Baobab through explicit APIs."
     - name: "uv"
-      reason: "No Python package management needed in this profile."
+      reason: "No Python package management is required."
     - name: "poetry"
-      reason: "No Python package management needed in this profile."
+      reason: "No Python package management is required."
     - name: "docker"
-      reason: >
-        Not required for day-to-day frontend development against a remote
-        Baobab GraphQL gateway. Revisit if a repo later needs local
-        containerized services.
+      reason: "The frontend profile supplies the application toolchain; production container concerns remain separate."
     - name: "cosign"
-      reason: "Supply-chain signing tool for baobab-dev's own image; not a frontend-repo requirement."
-
-  # This block exists so CI can distinguish "capability check skipped
-  # because not yet buildable" from "capability check failed."
-  pending_capabilities:
-    - name: "turborepo"
-      status: "not yet in baobab-dev versions.yaml"
-      tracked_in: "ADR-0001 section 2.8a"
-    - name: "playwright"
-      status: "not yet in baobab-dev versions.yaml"
-      tracked_in: "ADR-0001 section 2.8a"
-
-# ------------------------------------------------------------------------------
-# Notes
-# ------------------------------------------------------------------------------
+      reason: "Image signing belongs to the baobab-dev publication pipeline."
 
 notes:
-  - >
-    This file cannot be fully CI-validated yet: `environment.minimum_version`
-    is null and two of five required_capabilities are pending, because the
-    `--target frontend` baobab-dev build does not exist yet. This is
-    expected at this stage of rollout (ADR-0001 section 2.7, step 3) and is
-    not a defect in this declaration.
-  - >
-    Once baobab-dev ships its first `*-frontend` tag with Turborepo and
-    Playwright present in versions.yaml, update `minimum_version` here (and
-    in the other three copies of this file) in the same commit — do not let
-    the four repos update on different schedules, or they silently diverge
-    on the one thing this profile exists to keep identical.
-  - >
-    `application.version` is a placeholder in every copy of this file until
-    each repo has real release versioning to source it from.
+  - "GitHub Codespaces and local Dev Containers use ghcr.io/nabhold/baobab-dev:1.2.6-frontend."
+  - "Browser-dependent CI uses the separately published 1.2.6-frontend-e2e profile."
+  - "This repository consumes Baobab capabilities through APIs and canonical contracts; it never accesses Baobab-owned databases."

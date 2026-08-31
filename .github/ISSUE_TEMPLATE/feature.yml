@@ -1,0 +1,35 @@
+name: Feature request
+description: Propose a capability for the Nabhold corporate digital estate.
+title: "feat: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired outcome
+      description: Describe the user or business outcome, not merely a technical solution.
+    validations:
+      required: true
+  - type: dropdown
+    id: boundary
+    attributes:
+      label: Architectural ownership
+      options:
+        - Nabhold corporate digital estate
+        - Baobab API or contract dependency
+        - Nabhold shared standard
+        - Nabhold infrastructure dependency
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: State observable conditions for completion.
+    validations:
+      required: true
+  - type: textarea
+    id: risks
+    attributes:
+      label: Risks and dependencies
+      description: Note security, privacy, API-contract, accessibility, or operational effects.

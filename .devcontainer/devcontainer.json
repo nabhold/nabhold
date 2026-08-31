@@ -1,0 +1,57 @@
+{
+  "name": "Nabhold Digital Estate",
+  "image": "ghcr.io/nabhold/baobab-dev:1.2.6-frontend",
+  "remoteUser": "vscode",
+  "updateRemoteUserUID": true,
+  "init": true,
+  "hostRequirements": {
+    "cpus": 4,
+    "memory": "8gb",
+    "storage": "32gb"
+  },
+  "containerEnv": {
+    "TZ": "Africa/Johannesburg",
+    "NEXT_TELEMETRY_DISABLED": "1"
+  },
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": {
+      "label": "Nabhold Next.js",
+      "onAutoForward": "openPreview",
+      "visibility": "private"
+    }
+  },
+  "otherPortsAttributes": {
+    "onAutoForward": "silent",
+    "visibility": "private"
+  },
+  "updateContentCommand": "corepack enable && pnpm install --frozen-lockfile",
+  "postCreateCommand": "pnpm typecheck && pnpm test",
+  "postStartCommand": "corepack enable",
+  "waitFor": "postCreateCommand",
+  "customizations": {
+    "codespaces": {
+      "openFiles": ["README.md", "docs/architecture.md"]
+    },
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss",
+        "github.vscode-github-actions",
+        "github.vscode-pull-request-github",
+        "redhat.vscode-yaml",
+        "mikestead.dotenv"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "files.trimTrailingWhitespace": true,
+        "files.insertFinalNewline": true,
+        "typescript.tsdk": "node_modules/typescript/lib",
+        "[javascript][typescript][typescriptreact][javascriptreact]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        }
+      }
+    }
+  }
+}
