@@ -60,7 +60,7 @@ jobs:
 
   action-pinning:
     name: Enforce action pinning
-    uses: nabhold/shared/.github/workflows/enforce-action-pinning.yml@498c431ea7eb76eb038975bc49e7087499d30d48 # shared main, 2026-08-26
+    uses: nabhold/shared/.github/workflows/enforce-action-pinning.yml@ba0a60d4d311aa26d9e0b7973b88fcd160cedf4d # shared main, 2026-08-26
     permissions:
       contents: read
 
