@@ -1,9 +1,7 @@
-# Default ownership
-* @bjnabs
-
-# Security- and delivery-sensitive paths
-/.github/ @bjnabs
-/.devcontainer/ @bjnabs
-/.nabhold/ @bjnabs
-/src/lib/auth/ @bjnabs
-/src/lib/pulse/ @bjnabs
+* @nabhold/platform-engineering
+/.github/ @nabhold/platform-engineering @nabhold/security
+/.devcontainer/ @nabhold/platform-engineering
+/.nabhold/ @nabhold/platform-engineering
+/Dockerfile @nabhold/platform-engineering @nabhold/security
+/src/lib/ @nabhold/platform-engineering
+/SECURITY.md @nabhold/security
