@@ -26,7 +26,7 @@
     "visibility": "private"
   },
   "updateContentCommand": "corepack enable && pnpm install --frozen-lockfile",
-  "postCreateCommand": "pnpm typecheck && pnpm test",
+  "postCreateCommand": "baobab-verify --contract && pnpm typecheck && pnpm test",
   "postStartCommand": "corepack enable",
   "waitFor": "postCreateCommand",
   "customizations": {
