@@ -38,7 +38,7 @@ pnpm test:e2e
 
 GitHub CI runs the same gates using the `baobab-dev:1.2.6-frontend-e2e` profile.
 
-See [architecture](docs/architecture.md), [Pulse integration](docs/integrations/pulse.md), and [deployment](docs/deployment.md).
+See [architecture](docs/architecture.md), [Pulse integration](docs/integrations/pulse.md), [Payload CMS integration](docs/integrations/payload.md), [content model](docs/content-model.md), and [deployment](docs/deployment.md).
 
 ## Foundation 4
 
