@@ -31,10 +31,10 @@ compatibility_policy:
 
 validation:
   required_capabilities:
-    - "node"
-    - "pnpm"
-    - "github_cli"
-    - "turborepo"
+    - "languages.node"
+    - "package_managers.pnpm"
+    - "development.github_cli"
+    - "frontend_tooling.turbo"
 
   excluded_capabilities:
     - name: "python"
